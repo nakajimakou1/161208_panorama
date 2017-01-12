@@ -3,6 +3,7 @@
   //windowサイズを画面サイズに合わせる
   var width = window.innerWidth;
   var height = window.innerHeight;
+
   var element;
   var scene, camera, renderer, controls;
 
@@ -16,14 +17,14 @@
 
     // カメラの作成
     camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
-    camera.position.set(0, 0, 0.1);
+    camera.position.set(0, 0, 0);
     scene.add(camera);
 
     // 球体の形状を作成
     var geometry = new THREE.SphereGeometry(5, 60, 40);
     geometry.scale(-1, 1, 1);
 
-    //マテリアルの作成
+    //　マテリアルの作成
     var material = new THREE.MeshBasicMaterial({
       // 画像をテクスチャとして読み込み
       map: THREE.ImageUtils.loadTexture("../common/images/image.jpg")
@@ -32,11 +33,12 @@
     // 球体(形状)にマテリアル(質感)を貼り付けて物体を作成
     sphere = new THREE.Mesh(geometry, material);
 
-    //シーンに追加
+    //　シーンに追加
     scene.add(sphere);
 
     // レンダラーの作成
     renderer = new THREE.WebGLRenderer();
+    //レンダラーをwindowサイズに合わせる
     renderer.setSize(width, height);
     renderer.setClearColor({color: 0x000000});
     element = renderer.domElement;
@@ -47,13 +49,19 @@
     var isAndroid = false;
     var isIOS = false;
     if (navigator.userAgent.indexOf("Android") != -1) {
+      //　デバイスがAndroidの場合
       isAndroid = true;
     } else if (/(iPad|iPhone|iPod)/g.test(navigator.userAgent)) {
+      //　デバイスがiOSの場合
       isIOS = true;
     }
     if (isAndroid || isIOS) {
+      // デバイスがスマートフォンまたはタブレット端末の場合
+      // ジャイロセンサーで視点操作を可能にする
       window.addEventListener("deviceorientation", setOrientationControls, true);
     } else {
+      // PCの場合
+      // マウスドラッグで視点操作を可能にする
       setOrbitControls();
     }
 
@@ -67,17 +75,25 @@
     camera.updateProjectionMatrix();
   }
 
-  // マウスドラッグで視点操作する
+
   function setOrbitControls() {
+    // PC閲覧時マウスドラッグで視点操作する
     controls = new THREE.OrbitControls(camera, element);
-    controls.rotateUp(Math.PI / 4);
     controls.target.set(
       camera.position.x + 0.15,
       camera.position.y,
       camera.position.z
     );
-    controls.noZoom = true;
-    controls.noPan = true;
+    // 視点操作のイージングをONにする
+    controls.enableDamping = true;
+    // 視点操作のイージングの値
+    controls.dampingFactor = 0.2;
+    // 視点変更の速さ
+    controls.rotateSpeed = 0.1;
+    // ズーム禁止
+    controls.noZoom = false;
+    // パン操作禁止
+    controls.noPan = false;
   }
 
   // ジャイロセンサーで視点操作する
