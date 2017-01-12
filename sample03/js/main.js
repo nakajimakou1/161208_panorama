@@ -38,7 +38,7 @@
 
     // レンダラーの作成
     renderer = new THREE.WebGLRenderer();
-    //レンダラーをwindowサイズに合わせる
+    // レンダラーをwindowサイズに合わせる
     renderer.setSize(width, height);
     renderer.setClearColor({color: 0x000000});
     element = renderer.domElement;
@@ -60,7 +60,7 @@
       // ジャイロセンサーで視点操作を可能にする
       window.addEventListener("deviceorientation", setOrientationControls, true);
     } else {
-      // PCの場合
+      // パソコンの場合
       // マウスドラッグで視点操作を可能にする
       setOrbitControls();
     }
@@ -77,7 +77,7 @@
 
 
   function setOrbitControls() {
-    // PC閲覧時マウスドラッグで視点操作する
+    // パソコン閲覧時マウスドラッグで視点操作する
     controls = new THREE.OrbitControls(camera, element);
     controls.target.set(
       camera.position.x + 0.15,
@@ -98,7 +98,7 @@
 
   // ジャイロセンサーで視点操作する
   function setOrientationControls(e) {
-    //スマホ以外で処理させない
+    // スマートフォン以外で処理させない
     if (!e.alpha) {
       return;
     }
