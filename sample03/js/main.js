@@ -22,12 +22,13 @@
 
     // 球体の形状を作成
     var geometry = new THREE.SphereGeometry(5, 60, 40);
-    geometry.scale(-1, 1, 1);
 
     //　マテリアルの作成
     var material = new THREE.MeshBasicMaterial({
       // 画像をテクスチャとして読み込み
-      map: THREE.ImageUtils.loadTexture("../common/images/image.jpg")
+      map: THREE.ImageUtils.loadTexture("../common/images/image.jpg"),
+      // レンダリング麺を背面に設定
+      side: THREE.BackSide
     });
 
     // 球体(形状)にマテリアル(質感)を貼り付けて物体を作成

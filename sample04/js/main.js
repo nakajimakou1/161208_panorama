@@ -22,7 +22,6 @@
 
     // 球体の形状を作成
     var geometry = new THREE.SphereGeometry(5, 60, 40);
-    geometry.scale(-1, 1, 1);
 
     // 動画の読み込み
     var video = document.createElement("video");
@@ -40,7 +39,9 @@
     //マテリアルの作成
     var material = new THREE.MeshBasicMaterial({
       // 画像をテクスチャとして読み込み
-      map: texture
+      map: texture,
+      // レンダリング麺を背面に設定
+      side: THREE.BackSide
     });
 
     // 球体(形状)にマテリアル(質感)を貼り付けて物体を作成
